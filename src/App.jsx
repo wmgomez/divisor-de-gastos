@@ -228,46 +228,26 @@ export default function App() {
   }
 
   const downloadAsImage = async () => {
-    if (!transfersRef.current) return
     try {
-      // Crear un contenedor temporal con toda la información
+      // Crear un contenedor temporal con toda la información (CSS válido y fuentes más pequeñas)
       const tempDiv = document.createElement('div')
-      tempDiv.style.cssText = `
-        background: #020617;
-        color: #e5e7eb;
-        padding: 1.5rem;
-        borderRadius: '1rem';
-        fontFamily: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        maxWidth: 600px;
-      `
+      tempDiv.style.cssText = `background: #020617; color: #e5e7eb; padding: 12px 16px; border-radius: 8px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 9999;`
 
       // Encabezado
       const header = document.createElement('div')
-      header.style.cssText = `
-        fontSize: 1.5rem;
-        fontWeight: 700;
-        marginBottom: 1rem;
-        textAlign: center;
-        color: #38bdf8;
-      `
+      header.style.cssText = `font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; text-align: center; color: #38bdf8;`
       header.textContent = 'Divisor de Gastos'
 
       // Resumen total
       const summary = document.createElement('div')
-      summary.style.cssText = `
-        marginBottom: 1.5rem;
-        padding: 1rem;
-        background: rgba(56,189,248,0.1);
-        borderRadius: 0.5rem;
-        border: 1px solid rgba(56,189,248,0.3);
-      `
+      summary.style.cssText = `margin-bottom: 12px; padding: 8px; background: rgba(56,189,248,0.08); border-radius: 6px; border: 1px solid rgba(56,189,248,0.18); display: flex; justify-content: space-between; align-items: center;`
 
       const totalLabel = document.createElement('div')
-      totalLabel.style.cssText = 'fontSize: 0.9rem; color: #9ca3af; marginBottom: 0.25rem;'
+      totalLabel.style.cssText = 'font-size: 0.8rem; color: #9ca3af;'
       totalLabel.textContent = 'Total gastado'
 
       const totalAmount = document.createElement('div')
-      totalAmount.style.cssText = 'fontSize: 1.3rem; fontWeight: 700; color: #4ade80;'
+      totalAmount.style.cssText = 'font-size: 1rem; font-weight: 700; color: #4ade80;'
       totalAmount.textContent = `$${total.toFixed(2)}`
 
       summary.appendChild(totalLabel)
@@ -275,106 +255,67 @@ export default function App() {
 
       // Detalles de lo que pagó cada uno
       const detailsTitle = document.createElement('div')
-      detailsTitle.style.cssText = `
-        fontSize: 1rem;
-        fontWeight: 700;
-        marginBottom: 0.75rem;
-        color: #e5e7eb;
-      `
+      detailsTitle.style.cssText = `font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #e5e7eb;`
       detailsTitle.textContent = 'Detalle de pagos'
 
       const detailsList = document.createElement('ul')
-      detailsList.style.cssText = `
-        listStyle: none;
-        padding: 0;
-        margin: 0 0 1.5rem 0;
-      `
+      detailsList.style.cssText = `list-style: none; padding: 0; margin: 0 0 12px 0;`
 
       friends.forEach((friend) => {
         const li = document.createElement('li')
-        li.style.cssText = `
-          padding: 0.5rem;
-          marginBottom: 0.25rem;
-          borderRadius: 0.4rem;
-          background: #111827;
-          fontSize: 0.9rem;
-          whiteSpace: nowrap;
-          overflow: hidden;
-          textOverflow: ellipsis;
-        `
-        li.innerHTML = `
-          <span style="color: #38bdf8; fontWeight: 600;">${friend.name}</span>
-          <span style="color: #e5e7eb; margin: 0 0.5rem;"></span>
-          <span style="color: #4ade80; fontWeight: 600;">$${friend.amount.toFixed(2)}</span>
-        `
+        li.style.cssText = `padding: 6px 8px; margin-bottom: 6px; border-radius: 6px; background: #111827; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;`
+        li.innerHTML = `<span style="color: #38bdf8; font-weight: 600;">${friend.name}</span><span style="color: #4ade80; font-weight: 600;">$${friend.amount.toFixed(2)}</span>`
         detailsList.appendChild(li)
       })
 
-      // Ajustes necesarios (lo que ya estaba)
+      // Ajustes necesarios
       const adjustmentsTitle = document.createElement('div')
-      adjustmentsTitle.style.cssText = `
-        fontSize: 1rem;
-        fontWeight: 700;
-        marginBottom: 0.75rem;
-        color: #e5e7eb;
-      `
+      adjustmentsTitle.style.cssText = `font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #e5e7eb;`
       adjustmentsTitle.textContent = 'Ajustes necesarios'
 
       const adjustmentsList = document.createElement('ul')
-      adjustmentsList.style.cssText = `
-        listStyle: none;
-        padding: 0;
-        margin: 0;
-      `
+      adjustmentsList.style.cssText = `list-style: none; padding: 0; margin: 0;`
 
       if (transfers.length === 0) {
         const li = document.createElement('li')
-        li.style.cssText = 'color: #9ca3af; fontSize: 0.9rem; padding: 0.5rem;'
+        li.style.cssText = 'color: #9ca3af; font-size: 0.8rem; padding: 6px;'
         li.textContent = 'Todos están equilibrados'
         adjustmentsList.appendChild(li)
       } else {
         transfers.forEach((transfer) => {
           const li = document.createElement('li')
-          li.style.cssText = `
-            padding: 0.5rem;
-            marginBottom: 0.25rem;
-            borderRadius: 0.4rem;
-            background: #111827;
-            fontSize: 0.9rem;
-          `
-          li.innerHTML = `
-            <span style="color: #f97373; fontWeight: 600; marginRight: 0.25rem;">${transfer.from}</span>
-            <span style="color: #e5e7eb;"> le paga </span>
-            <span style="color: #4ade80; fontWeight: 600; margin: 0 0.25rem;">$${transfer.amount.toFixed(2)}</span>
-            <span style="color: #e5e7eb;"> a </span>
-            <span style="color: #38bdf8; fontWeight: 600; marginLeft: 0.25rem;">${transfer.to}</span>
-          `
+          li.style.cssText = `padding: 6px 8px; margin-bottom: 6px; border-radius: 6px; background: #111827; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;`
+          li.innerHTML = `<div style="display:flex; align-items:center; gap:6px;"><span style="color:#f97373; font-weight:600;">${transfer.from}</span><span style="color:#e5e7eb;"> le paga </span><span style="color:#4ade80; font-weight:600; margin-left:6px;">$${transfer.amount.toFixed(2)}</span><span style="color:#e5e7eb; margin-left:6px;"> por persona </span><span style="color:#4ade80; font-weight:600; margin-left:6px;">$${perPerson.toFixed(2)}</span><span style="color:#e5e7eb; margin-left:6px;"> a </span><span style="color:#38bdf8; font-weight:600; margin-left:6px;">${transfer.to}</span></div>`
           adjustmentsList.appendChild(li)
         })
       }
 
+      // Añadir los nodos construidos al contenedor temporal y montarlo en el DOM
       tempDiv.appendChild(header)
       tempDiv.appendChild(summary)
       tempDiv.appendChild(detailsTitle)
       tempDiv.appendChild(detailsList)
       tempDiv.appendChild(adjustmentsTitle)
       tempDiv.appendChild(adjustmentsList)
-
       document.body.appendChild(tempDiv)
 
       const canvas = await html2canvas(tempDiv, {
         backgroundColor: '#020617',
-        scale: 2,
+        scale: window.devicePixelRatio || 2,
+        useCORS: true,
+        allowTaint: true,
       })
 
-      document.body.removeChild(tempDiv)
+      // Eliminar el contenedor temporal del DOM
+      if (document.body.contains(tempDiv)) document.body.removeChild(tempDiv)
 
       const link = document.createElement('a')
       link.href = canvas.toDataURL('image/jpeg', 0.95)
       link.download = `divisor-gastos-${new Date().toISOString().split('T')[0]}.jpg`
       link.click()
     } catch (error) {
-      alert('Error al generar la imagen: ' + error.message)
+      console.error('Error generating image:', error)
+      alert('Error al generar la imagen: ' + (error && error.message ? error.message : String(error)))
     }
   }
 
