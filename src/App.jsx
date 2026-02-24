@@ -458,6 +458,17 @@ export default function App() {
                 value={String(f.amount).replace('.', ',')}
                 maxLength={8}
                 onChange={(e) => handleAmountChange(f.id, e.target.value.slice(0, 8))}
+                onFocus={(e) => {
+                  try {
+                    e.target.select()
+                  } catch (err) {
+                    /* ignore */
+                  }
+                  const cur = String(f.amount)
+                  if (cur === '0' || cur === '0.0' || cur === '0,00' || cur === '0.00') {
+                    setFriends((prev) => prev.map((x) => (x.id === f.id ? { ...x, amount: '' } : x)))
+                  }
+                }}
                 inputMode="decimal"
                 style={{
                   background: '#020617',
