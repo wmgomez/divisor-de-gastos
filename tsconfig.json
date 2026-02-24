@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "public",
+    "node_modules/html2canvas"
+  ]
+}
