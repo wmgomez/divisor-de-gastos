@@ -197,7 +197,8 @@ export default function App() {
   }
 
   const handleAmountChange = (id, value) => {
-    const num = Number(String(value).replace(',', '.'))
+    const cleaned = String(value).replace(/[^0-9.,-]/g, '').slice(0, 8)
+    const num = Number(cleaned.replace(',', '.'))
     setFriends((prev) =>
       prev.map((f) =>
         f.id === id ? { ...f, amount: Number.isNaN(num) ? 0 : num } : f,
@@ -206,13 +207,15 @@ export default function App() {
   }
 
   const handleAddFriend = () => {
-    if (!newName.trim()) return
-    const num = Number(String(newAmount).replace(',', '.'))
+    const name = newName.trim().slice(0, 12)
+    if (!name) return
+    const cleanedAmt = String(newAmount).replace(/[^0-9.,-]/g, '').slice(0, 8)
+    const num = Number(cleanedAmt.replace(',', '.'))
     setFriends((prev) => [
       ...prev,
       {
         id: prev.length ? Math.max(...prev.map((f) => f.id)) + 1 : 1,
-        name: newName.trim(),
+        name,
         amount: Number.isNaN(num) ? 0 : num,
       },
     ])
@@ -447,7 +450,7 @@ export default function App() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr auto' : '2fr 1fr auto',
+            gridTemplateColumns: isMobile ? '1fr 110px 64px' : '2fr 1fr auto',
             gap: '0.5rem',
             alignItems: 'center',
             marginBottom: '1rem',
@@ -476,10 +479,11 @@ export default function App() {
             <React.Fragment key={f.id}>
               <input
                 value={f.name}
+                maxLength={12}
                 onChange={(e) =>
                   setFriends((prev) =>
                     prev.map((x) =>
-                      x.id === f.id ? { ...x, name: e.target.value } : x,
+                      x.id === f.id ? { ...x, name: e.target.value.slice(0, 12) } : x,
                     ),
                   )
                 }
@@ -493,12 +497,15 @@ export default function App() {
                   minHeight: '44px',
                   boxSizing: 'border-box',
                   touchAction: 'manipulation',
+                  width: '100%',
                 }}
               />
               <input
                 type="text"
                 value={String(f.amount).replace('.', ',')}
-                onChange={(e) => handleAmountChange(f.id, e.target.value)}
+                maxLength={8}
+                onChange={(e) => handleAmountChange(f.id, e.target.value.slice(0, 8))}
+                inputMode="decimal"
                 style={{
                   background: '#020617',
                   borderRadius: '0.5rem',
@@ -509,7 +516,8 @@ export default function App() {
                   minHeight: '44px',
                   boxSizing: 'border-box',
                   touchAction: 'manipulation',
-                  display: isMobile ? 'none' : 'block',
+                  width: '100%',
+                  textAlign: 'right',
                 }}
               />
               <button
