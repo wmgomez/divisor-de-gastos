@@ -254,9 +254,9 @@ export default function App() {
       summary.appendChild(totalAmount)
 
       // Detalles de lo que pagó cada uno
-      const detailsTitle = document.createElement('div')
-      detailsTitle.style.cssText = `font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #e5e7eb;`
-      detailsTitle.textContent = 'Detalle de pagos'
+        const detailsTitle = document.createElement('div')
+        detailsTitle.style.cssText = `font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #e5e7eb;`
+        detailsTitle.textContent = 'Detalle de pagos'
 
       const detailsList = document.createElement('ul')
       detailsList.style.cssText = `list-style: none; padding: 0; margin: 0 0 12px 0;`
@@ -285,7 +285,7 @@ export default function App() {
         transfers.forEach((transfer) => {
           const li = document.createElement('li')
           li.style.cssText = `padding: 6px 8px; margin-bottom: 6px; border-radius: 6px; background: #111827; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;`
-          li.innerHTML = `<div style="display:flex; align-items:center; gap:6px;"><span style="color:#f97373; font-weight:600;">${transfer.from}</span><span style="color:#e5e7eb;"> le paga </span><span style="color:#4ade80; font-weight:600; margin-left:6px;">$${transfer.amount.toFixed(2)}</span><span style="color:#e5e7eb; margin-left:6px;"> por persona </span><span style="color:#4ade80; font-weight:600; margin-left:6px;">$${perPerson.toFixed(2)}</span><span style="color:#e5e7eb; margin-left:6px;"> a </span><span style="color:#38bdf8; font-weight:600; margin-left:6px;">${transfer.to}</span></div>`
+            li.innerHTML = `<div style="display:flex; align-items:center; gap:6px;"><span style="color:#f97373; font-weight:600;">${transfer.from}</span><span style="color:#e5e7eb;"> le paga </span><span style="color:#4ade80; font-weight:600; margin-left:6px;">$${transfer.amount.toFixed(2)}</span><span style="color:#e5e7eb; margin-left:6px;"> a </span><span style="color:#38bdf8; font-weight:600; margin-left:6px;">${transfer.to}</span></div>`
           adjustmentsList.appendChild(li)
         })
       }
@@ -293,6 +293,18 @@ export default function App() {
       // Añadir los nodos construidos al contenedor temporal y montarlo en el DOM
       tempDiv.appendChild(header)
       tempDiv.appendChild(summary)
+        // Mostrar "Por persona" una sola vez debajo de Total
+        const perPersonDiv = document.createElement('div')
+        perPersonDiv.style.cssText = `margin-top:6px; padding:6px; display:flex; justify-content:space-between; align-items:center; background: rgba(129,140,248,0.04); border-radius:6px; border:1px solid rgba(129,140,248,0.08);`
+        const perPersonLabelDiv = document.createElement('div')
+        perPersonLabelDiv.style.cssText = 'font-size:0.8rem; color:#9ca3af'
+        perPersonLabelDiv.textContent = 'Por persona'
+        const perPersonAmountDiv = document.createElement('div')
+        perPersonAmountDiv.style.cssText = 'font-size:1rem; font-weight:700; color:#4ade80'
+        perPersonAmountDiv.textContent = `$${(Number.isNaN(perPerson) ? 0 : perPerson).toFixed(2)}`
+        perPersonDiv.appendChild(perPersonLabelDiv)
+        perPersonDiv.appendChild(perPersonAmountDiv)
+        tempDiv.appendChild(perPersonDiv)
       tempDiv.appendChild(detailsTitle)
       tempDiv.appendChild(detailsList)
       tempDiv.appendChild(adjustmentsTitle)
