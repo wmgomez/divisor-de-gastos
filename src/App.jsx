@@ -231,7 +231,8 @@ export default function App() {
     try {
       // Crear un contenedor temporal con toda la información (CSS válido y fuentes más pequeñas)
       const tempDiv = document.createElement('div')
-      tempDiv.style.cssText = `background: #020617; color: #e5e7eb; padding: 12px 16px; border-radius: 8px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 9999;`
+      // Aplicar un scale visual para reducir la fuente y el layout (aprox. 2 tamaños menos)
+      tempDiv.style.cssText = `background: #020617; color: #e5e7eb; padding: 12px 16px; border-radius: 8px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.85); transform-origin: center; z-index: 9999;`
 
       // Encabezado
       const header = document.createElement('div')
