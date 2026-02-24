@@ -516,16 +516,22 @@ export default function App() {
                   }}
                 >
                   <span
-                    style={{ color: '#f97373', fontWeight: 600 }}
-                  >{`${t.from}`}</span>{' '}
-                  le paga{' '}
+                    style={{ color: '#f97373', fontWeight: 600, marginRight: '0.25rem' }}
+                  >
+                    {t.from}
+                  </span>
+                  <span style={{ color: '#e5e7eb' }}> le paga </span>
                   <span
-                    style={{ color: '#4ade80', fontWeight: 600 }}
-                  >{`$${t.amount.toFixed(2)}`}</span>{' '}
-                  a{' '}
+                    style={{ color: '#4ade80', fontWeight: 600, margin: '0 0.25rem' }}
+                  >
+                    ${t.amount.toFixed(2)}
+                  </span>
+                  <span style={{ color: '#e5e7eb' }}> a </span>
                   <span
-                    style={{ color: '#38bdf8', fontWeight: 600 }}
-                  >{`${t.to}`}</span>
+                    style={{ color: '#38bdf8', fontWeight: 600, marginLeft: '0.25rem' }}
+                  >
+                    {t.to}
+                  </span>
                 </li>
               ))}
             </ul>
